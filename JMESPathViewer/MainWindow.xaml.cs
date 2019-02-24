@@ -3,6 +3,7 @@ using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Windows.Threading;
 
 namespace JMESPathViewer
 {
@@ -13,11 +14,14 @@ namespace JMESPathViewer
     {
         private string _path;
         private JmesPath _jmes = new JmesPath();
+        private DispatcherTimer _timer = new DispatcherTimer();
 
         public MainWindow()
         {
-
             InitializeComponent();
+
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += (o, e) => ReadFile();
 
             FilterTextBox.TextChanged += (o, e) => Transform();
             InputTextBox.TextChanged += (o, e) => Transform();
@@ -29,14 +33,23 @@ namespace JMESPathViewer
             PathTextBox.TextChanged += (o, e) =>
             {
                 var path = PathTextBox.Text;
+                _path = null;
                 if (File.Exists(path) && Path.GetExtension(path).ToLower() == ".json")
                 {
-                    ReadFile(path);
+                    _path = path;
                 }
             };
+
+            _timer.Start();
         }
 
-        private void ReadFile(string path) => InputTextBox.Text = File.ReadAllText(path);
+        private void ReadFile()
+        {
+            if (!(_path is null))
+            {
+                InputTextBox.Text = File.ReadAllText(_path);
+            }
+        }
 
         private void Transform()
         {
