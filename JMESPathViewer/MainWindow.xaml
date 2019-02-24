@@ -1,24 +1,37 @@
-﻿<Window x:Class="JMESPathViewer.MainWindow"
+﻿<Controls:MetroWindow x:Class="JMESPathViewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JMESPathViewer"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid ShowGridLines="True">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="FilterTextBox" Grid.Row="0" Grid.ColumnSpan="2" Background="PapayaWhip"/>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="SlateGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="PathTextBox" Grid.Row="0" Background="Aqua" Controls:TextBoxHelper.Watermark="File Path"/>
+            <TextBox x:Name="FilterTextBox" Grid.Row="1" Background="PapayaWhip" Controls:TextBoxHelper.Watermark="Filter"/>
+            <Controls:ToggleSwitch x:Name="TogglePath" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" OnLabel="Path" OffLabel="Text" IsChecked="True"/>
+        </Grid>
         <TextBox x:Name="InputTextBox" Grid.Row="1" Grid.Column="0" Background="LightSkyBlue" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
         <TextBox x:Name="OutTextBox" Grid.Row="1" Grid.Column="1" Background="LightSeaGreen" AcceptsReturn="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
         <TextBlock x:Name="ErrorTextBlock" Grid.Row="2" Grid.ColumnSpan="2" Background="SlateGray" FontSize="15" FontWeight="Bold"/>
     </Grid>
-</Window>
+</Controls:MetroWindow>

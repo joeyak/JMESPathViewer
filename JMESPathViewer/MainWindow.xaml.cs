@@ -1,24 +1,42 @@
 ﻿using DevLab.JmesPath;
+using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 using System;
-using System.Windows;
+using System.IO;
 
 namespace JMESPathViewer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
+        private string _path;
         private JmesPath _jmes = new JmesPath();
 
         public MainWindow()
         {
+
             InitializeComponent();
 
             FilterTextBox.TextChanged += (o, e) => Transform();
             InputTextBox.TextChanged += (o, e) => Transform();
+            TogglePath.IsCheckedChanged += (o, e) =>
+            {
+                PathTextBox.IsEnabled = TogglePath.IsChecked ?? false;
+                _path = PathTextBox.IsEnabled ? PathTextBox.Text : null;
+            };
+            PathTextBox.TextChanged += (o, e) =>
+            {
+                var path = PathTextBox.Text;
+                if (File.Exists(path) && Path.GetExtension(path).ToLower() == ".json")
+                {
+                    ReadFile(path);
+                }
+            };
         }
+
+        private void ReadFile(string path) => InputTextBox.Text = File.ReadAllText(path);
 
         private void Transform()
         {
